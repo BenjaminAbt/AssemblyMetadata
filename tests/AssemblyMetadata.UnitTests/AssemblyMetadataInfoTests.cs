@@ -5,8 +5,14 @@ using System;
 
 namespace BenjaminAbt.AssemblyMetadata.UnitTests
 {
+    /// <summary>
+    /// Tests for AssemblyMetadata
+    /// </summary>
     public class AssemblyMetadataInfoTests
     {
+        /// <summary>
+        /// Tests for AssemblyMetadata.BuildInfo
+        /// </summary>
         [Fact]
         public void BuildInfoTests()
         {

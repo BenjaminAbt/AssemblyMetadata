@@ -5,6 +5,9 @@ using System.Text;
 
 namespace BenjaminAbt.AssemblyMetadata
 {
+    /// <summary>
+    /// Source Code Generator of AssemblyMetadata
+    /// </summary>
     [Generator]
     public class AssemblyMetadataGenerator : ISourceGenerator
     {

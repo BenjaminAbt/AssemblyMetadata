@@ -7,7 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMetadata", "src\Ass
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMetadata.UnitTests", "tests\AssemblyMetadata.UnitTests\AssemblyMetadata.UnitTests.csproj", "{9539FEA1-624D-4B73-96A6-C7C7833EC8B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMetadata.SampleApp", "sample\AssemblyMetadata.SampleApp\AssemblyMetadata.SampleApp.csproj", "{CC278D80-0849-4F7E-BBE5-B2844EDE9A56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyMetadata.SampleApp", "sample\AssemblyMetadata.SampleApp\AssemblyMetadata.SampleApp.csproj", "{CC278D80-0849-4F7E-BBE5-B2844EDE9A56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11AB7B9F-19C3-4CFF-9512-E4AF88B9590F}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		readme.md = readme.md
+		version.json = version.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
