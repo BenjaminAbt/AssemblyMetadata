@@ -61,6 +61,9 @@ namespace BenjaminAbt.AssemblyMetadata
             context.AddSource("AssemblyMetadataInfo.gen.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public void Initialize(GeneratorInitializationContext context) { }
     }
 }
