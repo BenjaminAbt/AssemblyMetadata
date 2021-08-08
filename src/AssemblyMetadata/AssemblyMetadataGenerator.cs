@@ -11,6 +11,9 @@ namespace BenjaminAbt.AssemblyMetadata
     [Generator]
     public class AssemblyMetadataGenerator : ISourceGenerator
     {
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public void Execute(GeneratorExecutionContext context)
         {
             // vars
