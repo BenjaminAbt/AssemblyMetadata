@@ -11,6 +11,12 @@ In this case, this example just adds the local timestamp on build into a static 
 |-|
 | [![AssemblyMetadata](https://img.shields.io/nuget/v/AssemblyMetadata.svg?logo=nuget&label=AssemblyMetadata)](https://www.nuget.org/packages/AssemblyMetadata) |
 
+```xml
+   <PackageReference Include="AssemblyMetadata" 
+      Version="VERSIONHERE" 
+      OutputItemType="Analyzer" 
+      ReferenceOutputAssembly="false" />
+```
 
 ## Usage
 

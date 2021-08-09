@@ -34,6 +34,11 @@ namespace BenjaminAbt.AssemblyMetadata
             /// </summary>
             public const string BuildTimestamp = ""%BUILD_ISO8601%"";
 
+            /// <summary>
+            /// Build time as FileTime
+            /// </summary>
+            public const long BuildFileTimeUtc = %BUILD_FILETIME%;
+
             public const int BuildDateYear = %BUILD_DATE_YEAR%;
             public const int BuildDateMonth = %BUILD_DATE_MONTH%;
             public const int BuildDateDay = %BUILD_DATE_DAY%;
@@ -51,6 +56,8 @@ namespace BenjaminAbt.AssemblyMetadata
             StringBuilder sourceBuilder = new StringBuilder(_source)
 
                 .Replace("%BUILD_ISO8601%", buildOn.ToString("o"))
+
+                .Replace("%BUILD_FILETIME%", buildOn.ToFileTime().ToString())
 
                 .Replace("%BUILD_DATE_YEAR%", buildOn.Year.ToString())
                 .Replace("%BUILD_DATE_MONTH%", buildOn.Month.ToString())

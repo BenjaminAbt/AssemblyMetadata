@@ -18,6 +18,8 @@ namespace BenjaminAbt.AssemblyMetadata.UnitTests
         {
             DateTimeOffset buildOn = DateTimeOffset.ParseExact(AssemblyMetadataInfo.BuildInfo.BuildTimestamp, "o", null);
 
+            AssemblyMetadataInfo.BuildInfo.BuildFileTimeUtc.Should().Be(buildOn.ToFileTime());
+      
             AssemblyMetadataInfo.BuildInfo.BuildDateYear.Should().Be(buildOn.Year);
             AssemblyMetadataInfo.BuildInfo.BuildDateMonth.Should().Be(buildOn.Month);
             AssemblyMetadataInfo.BuildInfo.BuildDateDay.Should().Be(buildOn.Day);
