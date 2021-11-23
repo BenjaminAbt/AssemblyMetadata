@@ -9,11 +9,9 @@
     <Product>Extended Assembly Metadata Information</Product>
     <AssemblyName>BenjaminAbt.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>BenjaminAbt.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <!-- Do not include the generator as a lib dependency -->
   </PropertyGroup>
