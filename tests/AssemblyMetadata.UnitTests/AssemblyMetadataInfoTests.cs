@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using BenjaminAbt.AssemblyMetadata;
 using FluentAssertions;
 using System;
 
@@ -16,10 +15,11 @@ namespace BenjaminAbt.AssemblyMetadata.UnitTests
         [Fact]
         public void BuildInfoTests()
         {
+
             DateTimeOffset buildOn = DateTimeOffset.ParseExact(AssemblyMetadataInfo.BuildInfo.BuildTimestamp, "o", null);
 
             AssemblyMetadataInfo.BuildInfo.BuildFileTimeUtc.Should().Be(buildOn.ToFileTime());
-      
+
             AssemblyMetadataInfo.BuildInfo.BuildDateYear.Should().Be(buildOn.Year);
             AssemblyMetadataInfo.BuildInfo.BuildDateMonth.Should().Be(buildOn.Month);
             AssemblyMetadataInfo.BuildInfo.BuildDateDay.Should().Be(buildOn.Day);
@@ -29,4 +29,5 @@ namespace BenjaminAbt.AssemblyMetadata.UnitTests
             AssemblyMetadataInfo.BuildInfo.BuildTimeSecond.Should().Be(buildOn.Second);
         }
     }
+
 }
