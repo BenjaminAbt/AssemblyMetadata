@@ -36,23 +36,13 @@ jobs:
         run: echo ${{ steps.nbgv.outputs.SemVer2 }}
 
       - name: Build with dotnet
-        run: |
-          dotnet build
-              --configuration ${{ env.BuildConfig }}
-              /p:Version=${{ steps.nbgv.outputs.AssemblyVersion }}
+        run: dotnet build --configuration ${{ env.BuildConfig }} /p:Version=${{ steps.nbgv.outputs.AssemblyVersion }}
 
       - name: Test with dotnet
         run: dotnet test
 
       - name: Pack NuGet
-        run: |
-          dotnet pack
-              --configuration ${{ env.BuildConfig }}
-              /p:Version=${{ steps.nbgv.outputs.NuGetPackageVersion }}
+        run: dotnet pack --configuration ${{ env.BuildConfig }} /p:Version=${{ steps.nbgv.outputs.NuGetPackageVersion }}
 
       - name: Push to NuGet
-        run: |
-          dotnet nuget push **/*.nupkg
-                --api-key ${{ secrets.NUGET_DEPLOY_KEY }}
-                --source https://api.nuget.org/v3/index.json
-                --no-symbols 1
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_DEPLOY_KEY }} --source https://api.nuget.org/v3/index.json --no-symbols 1
