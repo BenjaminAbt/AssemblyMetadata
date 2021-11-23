@@ -9,7 +9,9 @@ on:
         - main
 
 env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   BuildConfig: Release
+  DOTNET_SDK: '6.0.100' # https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/6.0/releases.json
 
 jobs:
     build:
@@ -27,7 +29,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.100'
+          dotnet-version: ${{ env.DOTNET_SDK }}
 
       - uses: dotnet/nbgv@master # https://github.com/dotnet/nbgv
         id: nbgv
@@ -47,10 +49,8 @@ jobs:
         run: dotnet pack
               --configuration ${{ env.BuildConfig }}
               /p:Version=${{ steps.nbgv.outputs.NuGetPackageVersion }}
-
+      
       - name: Push to NuGet
-        ## push only stable packages
-        if: github.ref == 'refs/heads/main'
         run: dotnet nuget push **/*.nupkg
                 --api-key ${{ secrets.NUGET_DEPLOY_KEY }}
                 --source https://api.nuget.org/v3/index.json
