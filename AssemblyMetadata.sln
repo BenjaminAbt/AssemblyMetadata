@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11AB7B9F-19C3-4CFF-9512-E4AF88B9590F}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		global.json = global.json
 		LICENSE = LICENSE
 		readme.md = readme.md
 		version.json = version.json
