@@ -11,7 +11,7 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   BuildConfig: Release
-  DOTNET_SDK: '6.0.100' # https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/6.0/releases.json
+  DOTNET_SDK: '6.0.300' # https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/6.0/releases.json
 
 jobs:
     build:
