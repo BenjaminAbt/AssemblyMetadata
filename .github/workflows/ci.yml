@@ -11,7 +11,7 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   BuildConfig: Release
-  DOTNET_SDK: '6.0.300' # https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/6.0/releases.json
+  DOTNET_SDK: '7.0.102' # https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/7.0/releases.json
 
 jobs:
     build:
@@ -19,7 +19,7 @@ jobs:
       steps:
       
       - name: Cancel previous builds in PR
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@0.11.0
         with:
           access_token: ${{ github.token }}
           
@@ -27,7 +27,7 @@ jobs:
         with:
           fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
 
-      - uses: actions/setup-dotnet@v2
+      - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_SDK }}
 
