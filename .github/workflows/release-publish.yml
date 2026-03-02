@@ -47,13 +47,10 @@ jobs:
           echo "Found $PACKAGE_COUNT package(s) to publish"
 
       - name: Publish to NuGet.org
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           for package in ./artifacts/*.nupkg; do
             echo "Publishing $package to NuGet.org..."
             dotnet nuget push "$package" \
-              --api-key "$NUGET_API_KEY" \
               --source https://api.nuget.org/v3/index.json \
               --skip-duplicate
           done
