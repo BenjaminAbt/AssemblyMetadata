@@ -42,7 +42,7 @@ test *ARGS:
     dotnet run --project "tests/AssemblyMetadata.UnitTests/AssemblyMetadata.UnitTests.csproj" --configuration "{{CONFIG}}" --framework "{{TFM}}" {{ARGS}}
 
 test-cov:
-    dotnet run --project "tests/AssemblyMetadata.UnitTests/AssemblyMetadata.UnitTests.csproj" --configuration "{{CONFIG}}" --framework "{{TFM}}" -- --coverage --coverage-output "./TestResults/coverage/coverage.cobertura.xml" --coverage-output-format cobertura
+    dotnet test --configuration "{{CONFIG}}" --nologo -- --coverage --coverage-output "./TestResults/coverage/coverage.xml" --coverage-output-format xml
 
 test-filter QUERY:
     dotnet run --project "tests/AssemblyMetadata.UnitTests/AssemblyMetadata.UnitTests.csproj" --configuration "{{CONFIG}}" --framework "{{TFM}}" -- --filter "{{QUERY}}"
