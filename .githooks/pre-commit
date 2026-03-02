@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Git pre-commit hook to prevent committing to main branch
+# This script prevents accidental commits to the protected main branch
+
+protected_branch='main'
+
+# Get current branch name
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$current_branch" = "$protected_branch" ]; then
+    echo "Error: You are trying to commit to the protected branch '$protected_branch'."
+    echo "Please create a feature branch and work on it instead."
+    echo ""
+    echo "To create a feature branch:"
+    echo "  git checkout -b feature/your-feature-name"
+    echo ""
+    echo "If you absolutely need to commit to main (not recommended), you can:"
+    echo "  git commit --no-verify"
+    exit 1
+fi
+
+exit 0
