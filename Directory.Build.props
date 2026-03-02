@@ -1,26 +1,137 @@
 <Project>
+  <PropertyGroup Label="Project">
+    <Product>BenjaminAbt.AssemblyMetadata</Product>
+    <Authors>BenjaminAbt</Authors>
+    <Company>Benjamin Abt</Company>
+    <Copyright>Benjamin Abt</Copyright>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <MinClientVersion>2.12</MinClientVersion>
-        <Authors>Benjamin Abt</Authors>
-        <PackageProjectUrl>https://github.com/BenjaminAbt/AssemblyMetadata</PackageProjectUrl>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <DefaultLanguage>en-US</DefaultLanguage>
-        <Description>Assembly Metadata Information</Description>
-        <NoPackageAnalysis>true</NoPackageAnalysis>
-        <LangVersion>preview</LangVersion>
-        <Nullable>enable</Nullable>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <DebugType>embedded</DebugType>
-        <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
-        <IsBenchmarkProject>$(MsBuildProjectName.Contains('Benchmark'))</IsBenchmarkProject>
-        <IsPackable>false</IsPackable>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    </PropertyGroup>
+  <PropertyGroup Label="Vars">
+    <IsWindows Condition="$([MSBuild]::IsOSPlatform('Windows'))">true</IsWindows>
+    <IsOSX Condition="$([MSBuild]::IsOSPlatform('OSX'))">true</IsOSX>
+    <IsLinux Condition="$([MSBuild]::IsOSPlatform('Linux'))">true</IsLinux>
 
-    <PropertyGroup Condition="'$(IsTestProject)' != 'true' AND '$(IsBenchmarkProject)' != 'true'">
-        <GenerateDocumentationFile Condition="'$(Configuration)' == 'Release'">true</GenerateDocumentationFile>
-    </PropertyGroup>
+    <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
+    <IsUnitTestProject>$(MSBuildProjectName.EndsWith('UnitTests'))</IsUnitTestProject>
+    <IsIntegrationTestProject>$(MSBuildProjectName.EndsWith('IntegrationTests'))</IsIntegrationTestProject>
+    <IsBenchmarkProject>$(MsBuildProjectName.EndsWith('Benchmarks'))</IsBenchmarkProject>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Assembly">
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <RootNamespace>$(MSBuildProjectName)</RootNamespace>
+    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Compiler">
+    <LangVersion>preview</LangVersion>
+    <DebugType>embedded</DebugType>
+    <Nullable>enable</Nullable>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Performance">
+    <TieredPGO>true</TieredPGO>
+    <DynamicPGO>true</DynamicPGO>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <IsPackable>false</IsPackable>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <MinClientVersion>2.12</MinClientVersion>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <Title>BenjaminAbt.AssemblyMetadata - Build Metadata Source Generator</Title>
+    <Description>
+      A Roslyn incremental source generator that embeds build-time metadata
+      (timestamp, date, time components) as compile-time constants directly into your assembly.
+      Zero runtime overhead, no reflection required.
+    </Description>
+    <PackageProjectUrl>https://github.com/BenjaminAbt/AssemblyMetadata</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BenjaminAbt/AssemblyMetadata</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>SourceGenerator, AssemblyMetadata, BuildInfo, Roslyn, DotNet</PackageTags>
+    <!-- Central package icon for NuGet packages (file is included into the package via ItemGroup below) -->
+    <PackageIcon>assembly-metadata-logo-small.png</PackageIcon>
+  </PropertyGroup>
+
+  <!-- Ensure the repository root res/ icon is packed into NuGet packages -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)res\assembly-metadata-logo-small.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(IsTestProject)' != 'true' AND '$(IsBenchmarkProject)' != 'true'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Visual Studio">
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+  </PropertyGroup>
+
+  <PropertyGroup Label="NuGet Audit">
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true'" Label="Test Host">
+    <!-- xunit.v3 MTP requires an executable app host to run tests -->
+    <OutputType>Exe</OutputType>
+    <UseAppHost>true</UseAppHost>
+    <!-- Enables `dotnet test` to invoke MTP-based runners (xunit.v3) directly,
+         bypassing the vstest testhost entirely. Without this, dotnet test fails
+         with a "testhost.dll not found" error when using preview .NET SDKs. -->
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <!-- Demote MTP0001 from warning to message: xunit.runner.visualstudio sets VSTestTestAdapterPath
+         for IDE integration, which is harmless in MTP mode but triggers this diagnostic. -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MTP0001</MSBuildWarningsAsMessages>
+    <!-- CS8892: xunit.v3 generates both a sync (XunitAutoGeneratedEntryPoint) and an async
+         (MicrosoftTestingPlatformEntryPoint) Main. The sync one wins; the async warning is benign. -->
+    <NoWarn>$(NoWarn);CS8892</NoWarn>
+  </PropertyGroup>
+
+  <!-- Coverage settings for MTP-native code coverage (Microsoft.Testing.Extensions.CodeCoverage).
+       Minimum threshold and output format are passed via CLI flags (see Justfile test-cov / CI).
+       ExcludeByFile also applies when using coverlet.collector with dotnet test. -->
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true'" Label="Coverage">
+    <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+    <ExcludeByFile>**/*Program.cs;**/*Startup.cs;**/*GlobalUsings.cs;**/*.gen.cs;**/*.g.cs</ExcludeByFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="Default Test Dependencies" Condition="'$(IsTestProject)' == 'true'">
+    <!-- xunit.v3 uses Microsoft Testing Platform (MTP) and is self-contained.
+         xunit.runner.visualstudio provides the vstest adapter for dotnet test / VS Test Explorer.
+         CS8892 is suppressed in the Test Host PropertyGroup above because xunit.v3 generates
+         both XunitAutoGeneratedEntryPoint (sync) and MicrosoftTestingPlatformEntryPoint (async);
+         the sync entry point is chosen as the executable entry point - this is expected. -->
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.v3.extensibility.core" />
+    <PackageReference Include="xunit.v3.assert" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Label="Default Analyzers">
+    <PackageReference Include="Meziantou.Analyzer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- Block projects with privacy/security/license concerns -->
+  <Target Name="CheckBlockedPackages" AfterTargets="ResolvePackageDependenciesForBuild">
+    <Error Code="420" Text="Blocked package dependency detected: %(PackageDependencies.Identity)"
+          Condition="'%(PackageDependencies.Identity)' == 'Devlooped.SponsorLink'" />
+    <Error Code="420" Text="Blocked package dependency detected: %(PackageDependencies.Identity)"
+          Condition="'%(PackageDependencies.Identity)' == 'FluentAssertions'" />
+  </Target>
 
 </Project>

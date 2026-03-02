@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Git pre-push hook to prevent pushing to main branch
+# This script prevents accidental pushes to the protected main branch
+
+protected_branch='main'
+
+while read local_ref local_sha remote_ref remote_sha
+do
+    if [ "$remote_ref" = "refs/heads/$protected_branch" ]; then
+        echo "Error: You are trying to push to the protected branch '$protected_branch'."
+        echo "Please create a feature branch and submit a pull request instead."
+        echo ""
+        echo "To create a feature branch:"
+        echo "  git checkout -b feature/your-feature-name"
+        echo "  git push origin feature/your-feature-name"
+        echo ""
+        echo "If you absolutely need to push to main (not recommended), you can:"
+        echo "  git push --no-verify origin main"
+        exit 1
+    fi
+done
+
+exit 0

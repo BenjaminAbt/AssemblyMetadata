@@ -1,0 +1,77 @@
+{
+  // ── Copilot ───────────────────────────────────────────────────────────────────────────────
+  // Commit message generation instructions (Copilot preview feature)
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Use conventional commit format: type(scope): description"
+    },
+    {
+      "text": "Use imperative mood: 'Add feature' not 'Added feature'"
+    },
+    {
+      "text": "Keep subject line under 50 characters"
+    },
+    {
+      "text": "Use types: feat, fix, docs, style, refactor, perf, test, chore, ci"
+    },
+    {
+      "text": "Include scope when relevant (e.g., generator, tests, ci, docs)"
+    },
+    {
+      "text": "Reference issue numbers with # prefix"
+    }
+  ],
+  // ── Editor ────────────────────────────────────────────────────────────────────────────────
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "editor.rulers": [
+    120
+  ],
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.inlineSuggest.enabled": true,
+  // ── Files ─────────────────────────────────────────────────────────────────────────────────
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  // Hide generated/build artefacts from the Explorer
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true,
+    "**/TestResults": true,
+    "**/artifacts": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true,
+    "**/TestResults": true,
+    "**/artifacts": true
+  },
+  // ── C# ───────────────────────────────────────────────────────────────────────────────────
+  "dotnet.defaultSolution": "BenjaminAbt.AssemblyMetadata.slnx",
+  // Run tests through dotnet run (xunit.v3 MTP mode - dotnet test is not supported without Test.Sdk)
+  "dotnet-test-explorer.testProjectPath": "tests/**/*.UnitTests.csproj",
+  "dotnet-test-explorer.useTreeView": true,
+  // ── XML / MSBuild ─────────────────────────────────────────────────────────────────────────
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml",
+    "editor.tabSize": 2
+  },
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.tabSize": 2
+  }
+}
