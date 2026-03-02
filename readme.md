@@ -10,6 +10,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010%20%7C%2011-512BD4?logo=dotnet)](https://dotnet.microsoft.com)
 
+| Framework | .NET 10 | .NET 9 | .NET 8 | .NET Standard / 4.6.2+ |
+|---|---|---|---|---|
+| Supported | ✅ | ✅ | ✅ |✅ |
+
 A **Roslyn incremental source generator** that embeds build-time metadata - timestamp, date and
 time components - as **compile-time constants** directly into your assembly.
 Zero runtime overhead. No reflection. No configuration required.
@@ -29,10 +33,7 @@ Zero runtime overhead. No reflection. No configuration required.
   - [Use Individual Components](#use-individual-components)
   - [Build Age Check](#build-age-check)
   - [Health Endpoint](#health-endpoint)
-- [How It Works](#how-it-works)
 - [Target Frameworks](#target-frameworks)
-- [Building & Testing](#building--testing)
-- [Project Structure](#project-structure)
 - [License](#license)
 
 ---
@@ -206,102 +207,6 @@ app.MapGet("/info", () => new
     BuildMonth     = AssemblyMetadataInfo.BuildInfo.BuildDateMonth,
     BuildDay       = AssemblyMetadataInfo.BuildInfo.BuildDateDay,
 });
-```
-
----
-
-## How It Works
-
-AssemblyMetadata uses the modern **Roslyn incremental source generator** API
-(`IIncrementalGenerator`). The generator is registered against the compilation provider so it
-fires for every new compilation.
-
-The generated file never appears on disk; it lives only in the in-memory compilation.
-Because all members are `const`, the C# compiler inlines them at every call site - no method
-call, no property access, no object allocation.
-
-### Why All Values Are Derived from One `DateTimeOffset`
-
-`BuildSource` receives a single `DateTimeOffset buildOn` parameter and derives all eight
-constants from it. Calling `DateTimeOffset.UtcNow` only once guarantees that
-`BuildTimestamp`, `BuildFileTimeUtc`, and every date/time component refer to the exact same
-instant, with no possibility of clock skew between fields.
-
----
-
-## Target Frameworks
-
-The source generator itself targets `netstandard2.0` because it runs inside the Roslyn/MSBuild
-host process. The consuming project can target any framework supported by Roslyn source generators:
-
-| Framework | Supported |
-|---|---|
-| .NET 10 | ✅ |
-| .NET 9 | ✅ |
-| .NET 8 | ✅ |
-| .NET Standard 2.0+ | ✅ |
-| .NET Framework 4.6.2+ | ✅ |
-
----
-
-## Building & Testing
-
-Prerequisites: [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-
-```bash
-# Restore dependencies
-dotnet restore
-
-# Build
-dotnet build
-
-# Run tests
-dotnet test
-
-# Pack NuGet package
-dotnet pack --configuration Release -o ./artifacts/packages
-```
-
-With [just](https://github.com/casey/just) installed:
-
-```bash
-just build       # build Debug
-just test        # run tests
-just test-cov    # run tests with coverage
-just pack        # create NuGet packages
-just ci          # full CI pipeline (clean → restore → format-check → build → test-cov)
-```
-
----
-
-## Project Structure
-
-```
-src/
-  AssemblyMetadata/          # Roslyn source generator (netstandard2.0)
-    AssemblyMetadata.csproj
-    AssemblyMetadataGenerator.cs
-
-tests/
-  AssemblyMetadata.UnitTests/  # xUnit v3 unit tests (net10.0)
-    AssemblyMetadata.UnitTests.csproj
-    AssemblyMetadataInfoTests.cs
-    AssemblyMetadataGeneratorTests.cs
-
-sample/
-  AssemblyMetadata.SampleApp/  # Console sample demonstrating the generated API (net10.0)
-    AssemblyMetadata.SampleApp.csproj
-    Program.cs
-
-res/                           # Images / assets
-Directory.Build.props          # Shared MSBuild properties (Unio-style project structure)
-Directory.Packages.props       # Central Package Management (CPM) versions
-global.json                    # SDK version pin
-version.json                   # Nerdbank.GitVersioning configuration
-coverlet.runsettings           # Code-coverage configuration
-Justfile                       # Task runner recipes
-NuGet.config                   # NuGet feed configuration
-.editorconfig                  # Code style rules
 ```
 
 ---
