@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/sample/">
+    <Project Path="sample/AssemblyMetadata.SampleApp/AssemblyMetadata.SampleApp.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/AssemblyMetadata/AssemblyMetadata.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AssemblyMetadata.UnitTests/AssemblyMetadata.UnitTests.csproj" />
+  </Folder>
+</Solution>

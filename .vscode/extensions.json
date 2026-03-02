@@ -1,0 +1,27 @@
+{
+  "recommendations": [
+    // C# / .NET
+    "ms-dotnettools.csharp",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.vscode-dotnet-runtime",
+
+    // GitHub Copilot
+    "github.copilot",
+    "github.copilot-chat",
+
+    // NuGet
+    "jmrog.vscode-nuget-package-manager",
+    "aliasadidev.nugetpackagemanagergui",
+
+    // XML / YAML / JSON
+    "redhat.vscode-xml",
+    "redhat.vscode-yaml",
+
+    // Editor quality
+    "editorconfig.editorconfig",
+    "streetsidesoftware.code-spell-checker",
+
+    // Just task runner
+    "skellock.just"
+  ]
+}
