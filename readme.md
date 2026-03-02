@@ -10,6 +10,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010%20%7C%2011-512BD4?logo=dotnet)](https://dotnet.microsoft.com)
 
+| Framework | .NET 10 | .NET 9 | .NET 8 | .NET Standard / 4.6.2+ |
+|---|---|---|---|---|
+| Supported | ✅ | ✅ | ✅ |✅ |
+
 A **Roslyn incremental source generator** that embeds build-time metadata - timestamp, date and
 time components - as **compile-time constants** directly into your assembly.
 Zero runtime overhead. No reflection. No configuration required.
@@ -29,7 +33,6 @@ Zero runtime overhead. No reflection. No configuration required.
   - [Use Individual Components](#use-individual-components)
   - [Build Age Check](#build-age-check)
   - [Health Endpoint](#health-endpoint)
-- [How It Works](#how-it-works)
 - [Target Frameworks](#target-frameworks)
 - [License](#license)
 
@@ -205,40 +208,6 @@ app.MapGet("/info", () => new
     BuildDay       = AssemblyMetadataInfo.BuildInfo.BuildDateDay,
 });
 ```
-
----
-
-## How It Works
-
-AssemblyMetadata uses the modern **Roslyn incremental source generator** API
-(`IIncrementalGenerator`). The generator is registered against the compilation provider so it
-fires for every new compilation.
-
-The generated file never appears on disk; it lives only in the in-memory compilation.
-Because all members are `const`, the C# compiler inlines them at every call site - no method
-call, no property access, no object allocation.
-
-### Why All Values Are Derived from One `DateTimeOffset`
-
-`BuildSource` receives a single `DateTimeOffset buildOn` parameter and derives all eight
-constants from it. Calling `DateTimeOffset.UtcNow` only once guarantees that
-`BuildTimestamp`, `BuildFileTimeUtc`, and every date/time component refer to the exact same
-instant, with no possibility of clock skew between fields.
-
----
-
-## Target Frameworks
-
-The source generator itself targets `netstandard2.0` because it runs inside the Roslyn/MSBuild
-host process. The consuming project can target any framework supported by Roslyn source generators:
-
-| Framework | Supported |
-|---|---|
-| .NET 10 | ✅ |
-| .NET 9 | ✅ |
-| .NET 8 | ✅ |
-| .NET Standard 2.0+ | ✅ |
-| .NET Framework 4.6.2+ | ✅ |
 
 ---
 
