@@ -31,8 +31,6 @@ Zero runtime overhead. No reflection. No configuration required.
   - [Health Endpoint](#health-endpoint)
 - [How It Works](#how-it-works)
 - [Target Frameworks](#target-frameworks)
-- [Building & Testing](#building--testing)
-- [Project Structure](#project-structure)
 - [License](#license)
 
 ---
@@ -241,68 +239,6 @@ host process. The consuming project can target any framework supported by Roslyn
 | .NET 8 | ✅ |
 | .NET Standard 2.0+ | ✅ |
 | .NET Framework 4.6.2+ | ✅ |
-
----
-
-## Building & Testing
-
-Prerequisites: [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-
-```bash
-# Restore dependencies
-dotnet restore
-
-# Build
-dotnet build
-
-# Run tests
-dotnet test
-
-# Pack NuGet package
-dotnet pack --configuration Release -o ./artifacts/packages
-```
-
-With [just](https://github.com/casey/just) installed:
-
-```bash
-just build       # build Debug
-just test        # run tests
-just test-cov    # run tests with coverage
-just pack        # create NuGet packages
-just ci          # full CI pipeline (clean → restore → format-check → build → test-cov)
-```
-
----
-
-## Project Structure
-
-```
-src/
-  AssemblyMetadata/          # Roslyn source generator (netstandard2.0)
-    AssemblyMetadata.csproj
-    AssemblyMetadataGenerator.cs
-
-tests/
-  AssemblyMetadata.UnitTests/  # xUnit v3 unit tests (net10.0)
-    AssemblyMetadata.UnitTests.csproj
-    AssemblyMetadataInfoTests.cs
-    AssemblyMetadataGeneratorTests.cs
-
-sample/
-  AssemblyMetadata.SampleApp/  # Console sample demonstrating the generated API (net10.0)
-    AssemblyMetadata.SampleApp.csproj
-    Program.cs
-
-res/                           # Images / assets
-Directory.Build.props          # Shared MSBuild properties (Unio-style project structure)
-Directory.Packages.props       # Central Package Management (CPM) versions
-global.json                    # SDK version pin
-version.json                   # Nerdbank.GitVersioning configuration
-coverlet.runsettings           # Code-coverage configuration
-Justfile                       # Task runner recipes
-NuGet.config                   # NuGet feed configuration
-.editorconfig                  # Code style rules
-```
 
 ---
 
