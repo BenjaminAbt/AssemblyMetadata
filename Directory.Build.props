@@ -23,6 +23,19 @@
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)BenjaminAbt.AssemblyMetadata.snk</AssemblyOriginatorKeyFile>
+
+    <PublicKey>
+      0024000004800000940000000602000000240000525341310004000001000100594966bd372222
+      c156cf531db3ab045e33c35b2c4c12833cd7eaf957c50ae9acc14ad764f1fbd5b135c287064877
+      fc897c19f2a6219c4f1ba26ea6d2980ae8abed3790905015247236c2d7d0a8bf8118b7e93dbb64
+      f615d5bf8c4e0de6c0b22d05a5620b9bb2be717258c8c59c5452eb18c4ad5a58f678ff6f24fe19
+      add8e4db
+    </PublicKey>
+  </PropertyGroup>
+
   <PropertyGroup Label="Compiler">
     <LangVersion>preview</LangVersion>
     <DebugType>embedded</DebugType>
